@@ -6,6 +6,8 @@ const todoList = document.querySelector(".list-group");
 const firstCardBody = document.querySelectorAll(".card-body")[0];
 const secondCardBody = document.querySelectorAll(".card-body")[1];
 const clearButton = document.querySelector("#clearButton");
+const filterInput = document.querySelector("#todoSearch");
+
 
 let todos = [];
 
@@ -16,6 +18,8 @@ function runEvents(){
     document.addEventListener("DOMContentLoaded",pageLoaded);
     secondCardBody.addEventListener("click",RemoveToDo);
     clearButton.addEventListener("click",RemoveAllTodos);
+    filterInput.addEventListener("keyup",Filter);
+  
 }
 
 function addTodo(e){
@@ -132,4 +136,23 @@ function RemoveAllTodos(){
     //Storageden Silme
     todos=[];
     localStorage.setItem("todos",JSON.stringify(todos));
+}
+
+function Filter(e){
+    //Gelen metni yakala.
+    const filterValue = e.target.value.toLowerCase().trim();
+    const allTodolist = document.querySelectorAll(".list-group-item");
+
+    if(allTodolist.length>0){
+        allTodolist.forEach(function(todo){
+            if(todo.textContent.toLowerCase().trim().includes(filterValue)){
+              //  
+              todo.setAttribute("style", "display : block");
+            }
+            else{
+                todo.setAttribute("style","display : none !important");
+            }
+        });
+    }
+    else{showAlert("warning","Filtreleme için en az bir görev bulunmalıdır.");}
 }
