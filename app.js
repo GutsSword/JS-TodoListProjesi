@@ -14,7 +14,7 @@ runEvents();
 function runEvents(){
     form.addEventListener("submit",addTodo);
     document.addEventListener("DOMContentLoaded",pageLoaded);
-    secondCardBody.addEventListener("click",RemoveToDoFromUI);
+    secondCardBody.addEventListener("click",RemoveToDo);
 }
 
 function addTodo(e){
@@ -95,9 +95,24 @@ function pageLoaded(){
     })
 }
 
-function RemoveToDoFromUI(e){
+function RemoveToDo(e){
     if(e.target.className=="fa fa-remove"){
+        // Ekrandan silme
         const todo = e.target.parentElement.parentElement;
         todo.remove();
+
+        //Storageden silme
+        removeTodoStorage();
+        showAlert("succes", "Todo Başarıyla Silindi.");
     }
+}
+
+function removeTodoStorage(RemoveToDo){
+    CheckToDosFromStorage();
+    todos.forEach(function(item,index){
+        if(RemoveToDo===item){
+            item.splice(index,1);
+        }
+    });
+    localStorage.setItem("todos",JSON.stringify(todos));
 }
